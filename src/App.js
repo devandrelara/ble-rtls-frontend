@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import React,{useEffect,useState} from 'react'
+import Canvas from './components/Canvas'
+import axios from "axios";
+import Area from './components/Area';
+
 
 function App() {
+  const baseURL = "http://localhost:8000";
+  
+  const [areas,setAreas] = useState([]);
+  useEffect(()=>{
+    axios.get(`${baseURL}/area`).then((response)=>{
+      setAreas(response.data)
+    })
+  },[]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+    {areas.map((area)=>(<Area area={area} key={area.id}/>))}
+    </>
+    
+  // <Area/>
+  )
 }
 
-export default App;
+export default App
